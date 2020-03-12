@@ -4,7 +4,8 @@
 		<nav>
 			<router-link to="/">Home</router-link>
 			<router-link to="/register">Register</router-link>
-			<router-link to="/habits">Habits</router-link>
+			<router-link to="/habit">Habit</router-link>
+			<router-link to="/login">Log in</router-link>
 		</nav>
 		<router-view></router-view>
 	</section>
