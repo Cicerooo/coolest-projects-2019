@@ -1,3 +1,6 @@
 <template>
-	<div>Home</div>
+	<section>
+		Home
+	</section>
 </template>
+

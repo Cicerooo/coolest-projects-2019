@@ -65,6 +65,11 @@
       "name": "user3123",
       "password": "pass1",
       "id": 3
+    },
+    {
+      "name": "Briana",
+      "password": "12234",
+      "id": 4
     }
   ]
 }
