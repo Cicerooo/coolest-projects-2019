@@ -3,14 +3,12 @@ import VueRouter from "vue-router";
 import Home from "./pages/Home.vue";
 import Register from "./pages/Register.vue";
 import Habit from "./pages/Habit.vue";
-
 Vue.use(VueRouter);
 
 const routes = [
 	{ path: "/", component: Home },
 	{ path: "/habit/:id", component: Habit },
-	{ path: "/register", component: Register },
-	{ path:"/login", component: Login}
+	{ path: "/register", component: Register }
 ];
 
 export default new VueRouter({
