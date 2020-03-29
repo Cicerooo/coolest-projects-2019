@@ -1,131 +1,118 @@
 <template>
 	<section>
-		<link
-			href="https://fonts.googleapis.com/css?family=Merienda+One&display=swap"
-			rel="stylesheet"
-		/>
-		<section class="greeting">Welcome to Lyte</section>
+		<h1>Welcome to Lyte</h1>
 		<section class="box">
-			<link
-				href="https://fonts.googleapis.com/css?family=Baloo+Chettan+2&display=swap"
-				rel="stylesheet"
-			/>
 			<section class="registerbox">
-				<h1>Join us!</h1>
-				<p>Username</p>
-				<input type="text" placeholder="Username" v-model="username" />
-				<p class="alert" id="user"></p>
-				<p>Password</p>
-				<input type="password" placeholder="Password" v-model="password" />
+				<h2>Join us!</h2>
+				<label for="Username">Username</label>
+				<input type="text" placeholder="Username" id="Username" v-model="username" />
+				<p v-if="showUsernameAlreadyRegisteredError" class="alert" id="username"> Username is already registered</p>
+				<label for="Password">Password</label>
+				<input type="password" placeholder="Password" id="Password" v-model="password" />
 				<p>Confirm Password</p>
 				<input
 					type="password"
 					placeholder="Confirm Password"
 					v-model="confirmedPassword"
 				/>
-				<p class="alert" id="pass"></p>
-				<button type="button" @click="saveNewUser">Join us</button>
+				<p v-if="showPasswordDoesntMatchError" class="alert" id="password"> Password does not match</p>
+				<button type="button" @click="saveNewUser" :disabled="isLoading">{{isLoading?"Loading":"Join us"}}</button>
 				<p class="login">
 					Already have an account?
+					<router-link to"/login">Log in</router-link>
 				</p>
-				<button type="button" @click="switchToLogin">Login</button>
+				
 			</section>
 		</section>
 	</section>
 </template>
 <script>
-var user = document.getElementById("user");
-var pass = document.getElementById("pass");
 import Vue from "vue";
+import VueRouter from "vue";
 import axios from "axios";
 export default {
 	data() {
 		return {
 			username: "",
 			password: "",
-			confirmedPassword: ""
+			confirmedPassword: "",
+			showUsernameAlreadyRegisteredError: false,
+			showPasswordDoesntMatchError: false,
+			isLoading:false
 		};
 	},
 	methods: {
 		saveNewUser() {
-			document.getElementById("user").innerHTML = "";
-			document.getElementById("pass").innerHTML = "";
+			this.clearErrors();
 			if (
 				this.username &&
 				this.password &&
-				this.Confirmed() &&
-				this.Verified()
+				this.confirmedPassword &&
+				this.verifyIfPasswordsMatch()
 			) {
 				const newUser = {
 					name: this.username,
 					password: this.password
 				};
-				axios
-					.post("http://localhost:3000/users", newUser)
-					.then(res => {
-						this.clearUser();
-						window.location.href = "/";
+				this.isLoading=true;
+				axios.get(`http://localhost:3000/users?name=${this.username}`)
+					.then(res=>{
+						if(res.data.length==0) {
+							axios
+								.post("http://localhost:3000/users", newUser)
+								.then(res => {
+									this.clearUser();
+									this.clearErrors();
+								})
+								.catch(error => console.log(error))
+								.then(()=>{
+									this.isLoading=false;
+								})
+						}
+						else{
+							this.showUsernameAlreadyRegisteredError=true;
+							this.isLoading=false;
+						}
 					})
-					.catch(error => console.log(error));
+					.catch(error=>{
+						this.isLoading=false;
+						console.log(error);
+					})
 			}
 		},
-		Confirmed() {
-			if (this.password == this.confirmedPassword) return true;
-			else {
-				document.getElementById("pass").innerHTML = "Password does not match";
-				return false;
+		verifyIfPasswordsMatch() {
+			if (this.password == this.confirmedPassword) {
+				return true;
 			}
-		},
-		verifyUser(user) {
-			if (user == this.username) return true;
-			else return false;
+			this.showPasswordDoesntMatchError=true;
+			return false;
 		},
 		clearUser() {
 			this.username = "";
 			this.password = "";
 			this.confirmedPassword = "";
 		},
-		switchToLogin() {
-			window.location.href = "/login";
-		},
-		Verified() {
-			axios.get("http://localhost:3000/users").then(res => {
-				for (var i = 0; i < res.data.length; i++) {
-					if (res.data[i].name == this.username) {
-						console.log(this.username + " " + res.data[i].name);
-						document.getElementById("user").innerHTML =
-							"user already registered";
-						return false;
-					}
-				}
-			});
-			return true;
+		clearErrors(){
+			this.showUsernameAlreadyRegisteredError=false;
+			this.showPasswordDoesntMatchError=false;
 		}
 	}
 };
 </script>
 <style scoped>
-* {
-	margin: 0;
-	padding: 0;
-}
 body {
 	background-color: #f8feec;
 }
-.greeting {
+h1 {
 	font-family: "Merienda One", cursive;
 	text-align: center;
-	margin-right: auto;
-	margin-left: auto;
-	margin-top: 40px;
+	margin: 40px, auto, 0;
 	font-size: 40px;
 }
 .box {
 	width: 1120px;
 	height: 450px;
-	margin-top: 20px;
-	margin-left: auto;
-	margin-right: auto;
+	margin: 20px, auto, 0;
 	background-color: #f0ffd7;
 	color: #c2fa65;
 	padding-top: 80px;
@@ -141,23 +128,22 @@ body {
 	font-family: "Baloo Chettan 2", cursive;
 }
 .login {
-	margin-left: 73px;
+	text-align: center;
 	font-size: small;
 }
 .alert {
 	font-size: small;
 	color: #341212;
 }
-h1 {
+h2 {
 	text-align: center;
-	margin-right: 50px;
 	margin-bottom: 40px;
 	font-size: 30px;
 	font-weight: bold;
 }
 input {
-	margin-top: 15px;
-	margin-bottom: 15px;
+	margin-top:15x;
+	margin-bottom:15px;
 	width: 280px;
 	height: 20px;
 	background-color: transparent;
@@ -166,11 +152,11 @@ input {
 	font-family: "Baloo Chettan 2", cursive;
 }
 button {
+	cursor:pointer;
 	height: 40px;
 	width: 180px;
-	margin-left: 50px;
-	margin-top: 10px;
-	margin-bottom: 10px;
+	margin: 10px , auto, 10px;
+	display: block;
 	border-radius: 10px;
 	text-align: center;
 	font-weight: bold;
