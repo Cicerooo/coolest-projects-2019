@@ -3,29 +3,75 @@
 	<section class="habits">
 		<aside class="filters">
 			<h2>Filters</h2>
-			<article v-on:click="getHabits" v-bind:class="{selected: selected==0}" class="filter item">
-				<p class="filter-text">All</p>
+			<article @click="getAllHabits" :class="{selected: selected==0}" class="item">
+				<p>All</p>
 			</article>
 			<article
 				v-for="subject in subjects"
 				:key="subject.id"
-				v-on:click="filter(subject.id)"
-				class="filter item"
-				v-bind:class="{selected: selected==subject.id}"
+				@click="getFilteredHabits(subject.id)"
+				class="item"
+				:class="{selected: selected==subject.id}"
 			>
-				<p class="filter-text">{{subject.name}}</p>
+				<p>{{subject.name}}</p>
 			</article>
 		</aside>
 		<main class="list">
 			<h2>Habits</h2>
-			<div v-for="habit in habits" :key="habit.id" class="habit item">
-				<p class="habit-text">{{habit.name}}</p>
+			<div v-for="habit in habits" :key="habit.id" class="item">
+				<p>{{habit.name}}</p>
 			</div>
 		</main>
 	</section>
 </template>
 
-<style lang="scss" scoped>
+<script>
+import Vue from "vue";
+import axios from "axios";
+export default {
+	data() {
+		return {
+			habits: [],
+			subjects: [],
+			selected: 0
+		};
+	},
+	created() {
+		this.getHabits();
+		this.getSubjects();
+	},
+	methods: {
+		getAllHabits() {
+			axios
+				.get("http://localhost:3000/habits")
+				.then(res => {
+					this.habits = res.data || [];
+				})
+				.catch(error => console.log(error));
+			this.selected = 0;
+		},
+		getSubjects() {
+			axios
+				.get("http://localhost:3000/subjects")
+				.then(res => {
+					this.subjects = res.data || [];
+				})
+				.catch(error => console.log(error));
+		},
+		getFilteredHabits(subjectId) {
+			axios
+				.get(`http://localhost:3000/habits?subjectId=${subjectId}`)
+				.then(res => {
+					this.habits = res.data || [];
+				})
+				.catch(error => console.log(error));
+			this.selected = subjectId;
+		}
+	}
+};
+</script>
+
+<style lang="less" scoped>
 .habits {
 	font-family: sans-serif;
 	display: flex;
@@ -76,49 +122,3 @@
 	}
 }
 </style>
-
-<script>
-import Vue from "vue";
-import axios from "axios";
-export default {
-	data() {
-		return {
-			habits: [],
-			subjects: [],
-			selected: 0
-		};
-	},
-	created() {
-		this.getHabits();
-		this.getSubjects();
-	},
-	methods: {
-		getHabits() {
-			axios
-				.get("http://localhost:3000/habits")
-				.then(res => {
-					this.habits = res.data;
-				})
-				.catch(error => console.log(error));
-			this.selected = 0;
-		},
-		getSubjects() {
-			axios
-				.get("http://localhost:3000/subjects")
-				.then(res => {
-					this.subjects = res.data;
-				})
-				.catch(error => console.log(error));
-		},
-		filter(id) {
-			axios
-				.get(`http://localhost:3000/habits/?subjectId=${id}`)
-				.then(res => {
-					this.habits = res.data;
-				})
-				.catch(error => console.log(error));
-			this.selected = id;
-		}
-	}
-};
-</script>
