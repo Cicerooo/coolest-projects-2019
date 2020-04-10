@@ -37,7 +37,7 @@ export default {
 		};
 	},
 	created() {
-		this.getHabits();
+		this.getAllHabits();
 		this.getSubjects();
 	},
 	methods: {
