@@ -4,7 +4,7 @@
 			<li v-for="habit in habits" :key="habit.id">{{ habit.name }}</li>
 		</ul>
 		<input type="text" placeholder="enter your habit" v-model="habitName" />
-		<button type="button" @click="saveHabit" :disabled="isLoading">save habit </button>
+		<button type="button" @click="saveHabit" :disabled="isLoading">save habit</button>
 	</section>
 </template>
 
@@ -15,40 +15,40 @@ export default {
 	data() {
 		return {
 			habits: [],
-			habitName:"",
+			habitName: "",
 			isLoading: false
 		};
 	},
-	created(){
+	created() {
 		this.getHabits();
 	},
 	methods: {
 		saveHabit() {
-			if(this.habitName)
-			{
-				this.isLoading=true;
+			if (this.habitName) {
+				this.isLoading = true;
 				const newHabit = {
 					name: this.habitName
-				}
-				axios.post("http://localhost:3000/habits", newHabit)
+				};
+				axios
+					.post("http://localhost:3000/habits", newHabit)
 					.then(res => {
 						this.getHabits();
 						this.clearHabit();
 					})
 					.catch(error => console.log(error))
-					.then(()=>this.isLoading=false)
-				
+					.then(() => (this.isLoading = false));
 			}
 		},
-		getHabits(){
-			axios.get("http://localhost:3000/habits")
+		getHabits() {
+			axios
+				.get("http://localhost:3000/habits")
 				.then(res => {
-					this.habits = res.data
+					this.habits = res.data;
 				})
-				.catch(error => console.log(error))
+				.catch(error => console.log(error));
 		},
-		clearHabit(){
-			this.habitName="";
+		clearHabit() {
+			this.habitName = "";
 		}
 	}
 };
