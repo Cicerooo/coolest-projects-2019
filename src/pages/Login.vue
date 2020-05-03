@@ -37,7 +37,7 @@ export default {
       username: "",
       password: "",
       showUserNotValidError: false,
-      isLoading: false,
+      isLoading: false
     };
   },
   methods: {
@@ -48,20 +48,21 @@ export default {
         .get(
           `http://localhost:3000/users?name=${this.username}&password=${this.password}`
         )
-        .then((res) => {
+        .then(res => {
           if (res.data.length > 0) {
+            localStorage.setItem("layt", "jwttoken");
             this.$router.push({ path: "/" });
           } else {
             this.showUserNotValidError = true;
             this.isLoading = false;
           }
         })
-        .catch((error) => {
+        .catch(error => {
           this.isLoading = false;
           console.log(error);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

@@ -77,6 +77,7 @@ export default {
                 .then(res => {
                   this.clearUser();
                   this.clearErrors();
+                  this.$router.push({ path: "/login" });
                 })
                 .catch(error => console.log(error))
                 .then(() => {
