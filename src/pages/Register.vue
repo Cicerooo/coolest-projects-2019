@@ -2,37 +2,47 @@
   <section>
     <section class="box">
       <h1>Join us!</h1>
-      <label for="Username">Username</label>
-      <input
-        type="text"
-        placeholder="Your username"
-        id="Username"
-        v-model="username"
-      />
-      <p v-if="showUsernameAlreadyRegisteredError" class="alert" id="username">
-        Username is already registered
-      </p>
-      <label for="Your password">Password</label>
-      <input
-        type="password"
-        placeholder="Password"
-        id="Password"
-        v-model="password"
-      />
-      <label for="ConfirmPassword"> Confirm Password </label>
-      <input
-        type="password"
-        placeholder="Confirm Password"
-        id="ConfirmPassword"
-        v-model="confirmedPassword"
-      />
-      <p v-if="showPasswordDoesntMatchError" class="alert" id="password">
-        Password does not match
-      </p>
+      <div class="input-group">
+        <label for="Username">Username</label>
+        <input
+          type="text"
+          placeholder="Your username"
+          id="Username"
+          v-model="username"
+        />
+        <p
+          v-if="showUsernameAlreadyRegisteredError"
+          class="alert"
+          id="username"
+        >
+          Username is already registered
+        </p>
+      </div>
+      <div class="input-group">
+        <label for="Your password">Password</label>
+        <input
+          type="password"
+          placeholder="Password"
+          id="Password"
+          v-model="password"
+        />
+      </div>
+      <div class="input-group">
+        <label for="ConfirmPassword"> Confirm Password </label>
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          id="ConfirmPassword"
+          v-model="confirmedPassword"
+        />
+        <p v-if="showPasswordDoesntMatchError" class="alert" id="password">
+          Password does not match
+        </p>
+      </div>
       <button type="button" @click="saveNewUser" :disabled="isLoading">
         {{ isLoading ? "Loading" : "Join us" }}
       </button>
-      <p class="login">
+      <p class="switchToRegisterOrLogin">
         Already have an account?
         <router-link to="/login" class="link">Log in</router-link>
       </p>
@@ -113,76 +123,3 @@ export default {
   }
 };
 </script>
-<style scoped>
-.box {
-  width: 450px;
-  height: 550px;
-  margin-top: 80px;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: white;
-  padding-top: 80px;
-  font-size: 20px;
-  border-radius: 10px;
-  font-family: "Open Sans", cursive;
-}
-.login {
-  text-align: center;
-  font-size: smaller;
-}
-.alert {
-  font-size: small;
-  color: #eb424f;
-  margin-left: 60px;
-}
-h1 {
-  text-align: center;
-  margin-bottom: 40px;
-  font-size: 30px;
-  font-weight: bold;
-}
-label {
-  display: block;
-  margin-left: 60px;
-  margin-top: 20px;
-  font-size: smaller;
-}
-input {
-  display: block;
-  margin-top: 15px;
-  margin-bottom: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 330px;
-  height: 40px;
-  background-color: transparent;
-  border: 2px solid #eaeced;
-  border-radius: 5px;
-  font-family: "Open Sans", cursive;
-}
-button {
-  height: 50px;
-  width: 330px;
-  margin-top: 30px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 10px;
-  display: block;
-  border-radius: 30px;
-  text-align: center;
-  font-weight: bold;
-  font-size: large;
-  color: white;
-  background-color: #eb424f;
-  border-color: transparent;
-  transition-duration: 0.4s;
-}
-button:hover {
-  background-color: #de434f;
-  cursor: pointer;
-}
-.link {
-  color: #eb424f;
-  text-decoration: none;
-}
-</style>
