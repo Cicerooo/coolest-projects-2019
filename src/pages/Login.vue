@@ -1,6 +1,6 @@
 <template>
-  <section class="box">
-    <h1>Log in</h1>
+  <box title="Log In">
+    <template #title>Nu merge</template>
     <div class="input-group">
       <label for="username">Username</label>
       <input
@@ -25,17 +25,19 @@
     <button type="button" @click="login" :disabled="isLoading">
       Log in
     </button>
-    <p class="switchToRegisterOrLogin">
+    <template #footer>
       Don't have an account?
       <router-link to="/register" class="link">Sign up</router-link>
-    </p>
-  </section>
+    </template>
+  </box>
 </template>
 <script>
 import Vue from "vue";
 import VueRouter from "vue";
 import axios from "axios";
+import Box from "../components/Box.vue";
 export default {
+  components: { Box },
   data() {
     return {
       username: "",

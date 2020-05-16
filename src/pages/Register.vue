@@ -1,59 +1,54 @@
 <template>
-  <section>
-    <section class="box">
-      <h1>Join us!</h1>
-      <div class="input-group">
-        <label for="Username">Username</label>
-        <input
-          type="text"
-          placeholder="Your username"
-          id="Username"
-          v-model="username"
-        />
-        <p
-          v-if="showUsernameAlreadyRegisteredError"
-          class="alert"
-          id="username"
-        >
-          Username is already registered
-        </p>
-      </div>
-      <div class="input-group">
-        <label for="Your password">Password</label>
-        <input
-          type="password"
-          placeholder="Password"
-          id="Password"
-          v-model="password"
-        />
-      </div>
-      <div class="input-group">
-        <label for="ConfirmPassword"> Confirm Password </label>
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          id="ConfirmPassword"
-          v-model="confirmedPassword"
-        />
-        <p v-if="showPasswordDoesntMatchError" class="alert" id="password">
-          Password does not match
-        </p>
-      </div>
-      <button type="button" @click="saveNewUser" :disabled="isLoading">
-        {{ isLoading ? "Loading" : "Join us" }}
-      </button>
-      <p class="switchToRegisterOrLogin">
-        Already have an account?
-        <router-link to="/login" class="link">Log in</router-link>
+  <box title="Join us!">
+    <div class="input-group">
+      <label for="Username">Username</label>
+      <input
+        type="text"
+        placeholder="Your username"
+        id="Username"
+        v-model="username"
+      />
+      <p v-if="showUsernameAlreadyRegisteredError" class="alert" id="username">
+        Username is already registered
       </p>
-    </section>
-  </section>
+    </div>
+    <div class="input-group">
+      <label for="Your password">Password</label>
+      <input
+        type="password"
+        placeholder="Password"
+        id="Password"
+        v-model="password"
+      />
+    </div>
+    <div class="input-group">
+      <label for="ConfirmPassword"> Confirm Password </label>
+      <input
+        type="password"
+        placeholder="Confirm Password"
+        id="ConfirmPassword"
+        v-model="confirmedPassword"
+      />
+      <p v-if="showPasswordDoesntMatchError" class="alert" id="password">
+        Password does not match
+      </p>
+    </div>
+    <button type="button" @click="saveNewUser" :disabled="isLoading">
+      {{ isLoading ? "Loading" : "Join us" }}
+    </button>
+    <template v-slot:footer>
+      Already have an account?
+      <router-link to="/login" class="link">Log in</router-link>
+    </template>
+  </box>
 </template>
 <script>
 import Vue from "vue";
 import VueRouter from "vue";
 import axios from "axios";
+import Box from "../components/Box.vue";
 export default {
+  components: { Box },
   data() {
     return {
       username: "",
