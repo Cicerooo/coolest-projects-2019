@@ -8,16 +8,16 @@
         "times": 3,
         "days": 7
       },
-      "createdAt":123, 
-      "userId":1
+      "createdAt": 123,
+      "userId": 1
     }
   ],
-  "logs":[
+  "logs": [
     {
-      "id":1,
-      "habitId":1,
-      "userId":1,
-      "completedAt":123
+      "id": 1,
+      "habitId": 1,
+      "userId": 1,
+      "completedAt": 123
     }
   ],
   "subjects": [
@@ -34,28 +34,42 @@
       "name": "Career"
     },
     {
-      "id":4,
+      "id": 4,
       "name": "Education"
-
     },
     {
-      "id":5,
+      "id": 5,
       "name": "Family"
     },
     {
-      "id":6,
+      "id": 6,
       "name": "Relationships"
     },
     {
-      "id":7,
+      "id": 7,
       "name": "Finances"
     }
   ],
-  "users":[
+  "users": [
     {
-      "id":1,
-      "name":"admin",
+      "id": 1,
+      "name": "admin",
       "password": "password"
+    },
+    {
+      "name": "user2",
+      "password": "1234",
+      "id": 2
+    },
+    {
+      "name": "user3123",
+      "password": "pass1",
+      "id": 3
+    },
+    {
+      "name": "Briana",
+      "password": "12234",
+      "id": 4
     }
   ]
 }
